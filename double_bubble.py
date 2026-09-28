@@ -263,14 +263,13 @@ if __name__ == "__main__":
     else:
         print("Файл разметки не найден, используем эвристику.")
 
-    # Загрузка моделей (если их нет в папке models, скрипт не упадет, а просто проставит классы по нулям)
+
     bundles = {}
     for name, path in MODEL_FILES.items():
         model_bundle = load_pytorch_model(path, device)
         if model_bundle:
             bundles[name] = model_bundle
 
-    # Инициализация пайплайна
     pipeline = DXAPipeline(device, bundles)
     files = find_dicoms(args.input)
     print(f"Найдено DICOM файлов: {len(files)}")
@@ -294,7 +293,7 @@ if __name__ == "__main__":
             result_df[col] = ""
     result_df = result_df[OUTPUT_COLUMNS]
 
-    result_df.to_csv(args.output, index=False, encoding="utf-8-sig", sep=";")  # Разделитель ; лучше для русского экселя
+    result_df.to_csv(args.output, index=False, encoding="utf-8-sig", sep=";")
 
     print("\n=== ГОТОВО ===")
     print(f"Файл сохранен: {args.output}")
