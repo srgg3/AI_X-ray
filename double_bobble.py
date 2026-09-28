@@ -247,7 +247,7 @@ def find_dicoms(input_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="DXA Unified Pipeline")
     #НАДО ПУТЬ ПОМЕНЯТЬ
-    parser.add_argument("--input", default="Датасет", help="Папка с DICOM")
+    parser.add_argument("--input", default="dataset", help="Папка с DICOM")
     parser.add_argument("--labels", default="разметка.xlsx", help="Excel файл с разметкой")
     parser.add_argument("--output", default="final_submission.csv", help="CSV результата")
     args = parser.parse_args()

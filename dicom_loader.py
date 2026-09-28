@@ -147,7 +147,7 @@ class DicomDataLoader:
 
 # 1. Запуск
 # Обязательно укажите ваш путь к разархивированной папке
-loader = DicomDataLoader(r"/Users/whynot/PycharmProjects/lct/Датасет")
+loader = DicomDataLoader(r"/Users/whynot/PycharmProjects/lct/dataset")
 
 # 2. Сбор и сохранение
 df_metadata = loader.build_eda()
