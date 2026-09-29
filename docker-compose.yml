@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  dxa_api:
+    build: .
+    container_name: dxa_quality_control_api
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Датасет:/app/dataset
+      - ./output:/app/output
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
