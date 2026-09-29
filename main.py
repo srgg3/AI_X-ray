@@ -246,12 +246,10 @@ def process_batch_endpoint(request: BatchRequest):
     if not input_path.exists():
         raise HTTPException(status_code=404, detail=f"Входная папка не найдена: {input_path}")
 
-    # Загружаем разметку, если путь передан и файл существует
     labels_df = None
     if request.labels_excel and Path(request.labels_excel).exists():
         labels_df = pd.read_excel(request.labels_excel)
 
-    # Ищем файлы
     files = sorted(p for p in input_path.rglob("*.dcm") if p.is_file())
     if not files:
         files = sorted(p for p in input_path.rglob("*") if
@@ -266,7 +264,6 @@ def process_batch_endpoint(request: BatchRequest):
     results = []
     total_start = time.perf_counter()
 
-    # Запускаем обработку батчей
     for batch_idx, batch in enumerate(dataloader):
         start_time = time.perf_counter()
         valid_mask = batch["valid"]
@@ -339,13 +336,11 @@ def process_batch_endpoint(request: BatchRequest):
                     "time_of_processing": round((time.perf_counter() - start_time) / len(idx), 4)
                 })
 
-    # Сохранение CSV таблицы согласно ТЗ
     result_df = pd.DataFrame(results)
     for col in OUTPUT_COLUMNS:
         if col not in result_df.columns: result_df[col] = ""
     result_df[OUTPUT_COLUMNS].to_csv(output_csv_path, index=False, encoding="utf-8-sig", sep=";")
 
-    # Архивирование тепловых карт согласно ТЗ (п. 2.7)
     archive_path = ""
     if any(HEATMAP_DIR.iterdir()):
         archive_name = str(output_csv_path.parent / "heatmaps_archive")
